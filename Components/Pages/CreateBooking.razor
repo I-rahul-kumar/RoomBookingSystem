@@ -1,0 +1,42 @@
+﻿@page "/create"
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@rendermode InteractiveServer
+
+<h3>Book a Room</h3>
+
+@if (!string.IsNullOrWhiteSpace(ErrorMessage))
+{
+    <div class="alert alert-danger">@ErrorMessage</div>
+}
+
+<EditForm  Formname="bookingForm"  Model="Booking" OnValidSubmit="HandleBooking">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>User Name</label>
+        <InputText class="form-control" @bind-Value="Booking.UserName" />
+    </div>
+
+    <div class="form-group">
+        <label>Room</label>
+        <InputSelect class="form-select" @bind-Value="Booking.RoomId">
+            @foreach (var room in Rooms)
+            {
+                <option value="@room.Id">@room.Name</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-group">
+        <label>Start Time</label>
+        <InputDate class="form-control" @bind-Value="Booking.StartTime" />
+    </div>
+
+    <div class="form-group">
+        <label>End Time</label>
+        <InputDate class="form-control" @bind-Value="Booking.EndTime" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</EditForm>
